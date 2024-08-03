@@ -1,0 +1,20 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Todolist RESTful API",
+        "description": "OpenAPI for Todolist RESTful API",
+        "termsOfService": "https://www.apache.org/licenses/LICENSE-2.0",
+        "version": "1.0.0",
+        "contact": {
+            "name": "Arief Karditya Hermawan",
+            "email": "ariefkardityahrmwn@gmail.com",
+            "url": "https://web.facebook.com/ARIEF.KARDITYA"
+        },
+        "license": {
+            "name": "APACHE 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+        }
+    },
+    "servers": [],
+    "paths": {}
+}
