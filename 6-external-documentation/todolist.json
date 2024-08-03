@@ -1,0 +1,35 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Todolist RESTful API",
+        "description": "OpenAPI for Todolist RESTful API",
+        "version": "1",
+        "contact": {
+            "name": "Arief Karditya Hermawan",
+            "email": "ariefkardityahrmwn@gmail.com",
+            "url": "https://web.facebook.com/ARIEF.KARDITYA"
+        },
+        "license": {
+            "name": "APACHE 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+        }
+    },
+    "servers": [
+        {
+            "url": "https://{environment}.ariefbelajarteknologi.com/api/v1",
+            "description": "Todolist RESTful API",
+            "variables": {
+                "environment": {
+                    "default": "dev",
+                    "description": "Server Environtment",
+                    "enum": ["dev", "qa", "prod"]
+                }
+            }
+        }
+    ],
+    "externalDocs": {
+        "description": "Akun Github Arief Karditya Hermawan",
+        "url": "https://github.com/StandHereHermawan"
+    },
+    "paths": {}
+}
