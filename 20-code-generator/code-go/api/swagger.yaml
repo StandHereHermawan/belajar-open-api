@@ -1,0 +1,395 @@
+openapi: 3.0.3
+info:
+  title: Todolist RESTful API
+  description: OpenAPI for Todolist RESTful API
+  contact:
+    name: Arief Karditya Hermawan
+    url: https://web.facebook.com/ARIEF.KARDITYA
+    email: ariefkardityahrmwn@gmail.com
+  license:
+    name: APACHE 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  version: "1"
+externalDocs:
+  description: Akun Github Arief Karditya Hermawan
+  url: https://github.com/StandHereHermawan
+servers:
+- url: "https://{environment}.ariefbelajarteknologi.com/api/v1"
+  description: Todolist RESTful API
+  variables:
+    environment:
+      description: Server Environtment
+      default: dev
+      enum:
+      - dev
+      - qa
+      - prod
+paths:
+  /todolist:
+    get:
+      tags:
+      - Todolist
+      summary: Get All Todolist
+      description: Get all active Todolist
+      parameters:
+      - name: include_done
+        in: query
+        description: Include done todolist in the result
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+          nullable: true
+          default: false
+      - name: name
+        in: query
+        description: Search todolist by name
+        required: false
+        style: form
+        explode: true
+        schema:
+          maxLength: 1027
+          minLength: 1
+          type: string
+          nullable: true
+        examples:
+          PHP:
+            description: Example named PHP
+            value: PHP
+          Java:
+            description: Example named Java
+            value: Java
+      responses:
+        "200":
+          description: Success get all todolist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayTodolist'
+              examples:
+                todo:
+                  $ref: '#/components/examples/todolist-array-slide-1'
+                todoAgain:
+                  $ref: '#/components/examples/todolist-array-slide-2'
+      deprecated: false
+      security:
+      - TodolistAuth: []
+    post:
+      tags:
+      - Todolist
+      summary: Create new todolist
+      description: Create new active todolist to stored in database
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrUpdateTodolist'
+            examples:
+              Java:
+                $ref: '#/components/examples/Java'
+              PHP:
+                $ref: '#/components/examples/PHP'
+              Rust:
+                $ref: '#/components/examples/Rust'
+              Go:
+                $ref: '#/components/examples/Go'
+        required: true
+      responses:
+        "200":
+          description: Success create todolist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todolist'
+              examples:
+                Java:
+                  $ref: '#/components/examples/Java'
+                PHP:
+                  $ref: '#/components/examples/PHP'
+                Rust:
+                  $ref: '#/components/examples/Rust'
+                Go:
+                  $ref: '#/components/examples/Go'
+      deprecated: false
+      security:
+      - TodolistAuth: []
+  /todolist/{todolistId}:
+    put:
+      tags:
+      - Todolist
+      summary: Update existing todolist
+      description: Update existing todolist in database
+      parameters:
+      - name: todolistId
+        in: path
+        description: Todolist Id for update todo in database
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maxLength: 127
+          minLength: 1
+          type: string
+          nullable: false
+        examples:
+          PHP:
+            description: Example named PHP
+            value: "1"
+          Java:
+            description: Example named Java
+            value: "2"
+          Javascript:
+            description: Example named Javascript
+            value: "3"
+          Laravel:
+            description: Example named Laravel
+            value: "4"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrUpdateTodolist'
+            examples:
+              Java:
+                $ref: '#/components/examples/Java'
+              PHP:
+                $ref: '#/components/examples/PHP'
+              Rust:
+                $ref: '#/components/examples/Rust'
+              Go:
+                $ref: '#/components/examples/Go'
+        required: true
+      responses:
+        "200":
+          description: Success update todolist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todolist'
+              examples:
+                Java:
+                  $ref: '#/components/examples/Java'
+                PHP:
+                  $ref: '#/components/examples/PHP'
+                Rust:
+                  $ref: '#/components/examples/Rust'
+                Go:
+                  $ref: '#/components/examples/Go'
+      deprecated: false
+      security:
+      - TodolistAuth: []
+    delete:
+      tags:
+      - Todolist
+      summary: Delele existing todolist
+      description: Delele existing todolist in database
+      parameters:
+      - name: todolistId
+        in: path
+        description: Todolist Id for update todo in database
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maxLength: 127
+          minLength: 1
+          type: string
+          nullable: false
+        examples:
+          PHP:
+            description: Example named PHP
+            value: "1"
+          Java:
+            description: Example named Java
+            value: "2"
+          Javascript:
+            description: Example named Javascript
+            value: "3"
+          Laravel:
+            description: Example named Laravel
+            value: "4"
+      responses:
+        "200":
+          description: Success delete todolist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+              examples:
+                Success:
+                  description: Success delete todolist
+                  value:
+                    Success: true
+        "404":
+          description: "To do list not found, Failed delete todolist"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+              examples:
+                Failed:
+                  description: Failed delete todolist
+                  value:
+                    Success: false
+      deprecated: false
+      security:
+      - TodolistAuth: []
+components:
+  schemas:
+    Todolist:
+      type: object
+      properties:
+        id:
+          minLength: 1
+          type: string
+        name:
+          minLength: 1
+          type: string
+        priority:
+          type: integer
+          format: int32
+          default: 1
+        tags:
+          minItems: 1
+          type: array
+          items:
+            type: string
+      example:
+        name: name
+        id: id
+        priority: 0
+        tags:
+        - tags
+        - tags
+    CreateOrUpdateTodolist:
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        priority:
+          type: integer
+          format: int32
+          default: 1
+        tags:
+          minItems: 1
+          type: array
+          items:
+            type: string
+    ArrayTodolist:
+      type: array
+      items:
+        $ref: '#/components/schemas/Todolist'
+      x-schema-name: ArrayTodolist
+    inline_response_200:
+      type: object
+      properties:
+        Success:
+          type: boolean
+      example:
+        Success: true
+  parameters:
+    todolistId:
+      name: todolistId
+      in: path
+      description: Todolist Id for update todo in database
+      required: true
+      style: simple
+      explode: false
+      schema:
+        maxLength: 127
+        minLength: 1
+        type: string
+        nullable: false
+      examples:
+        PHP:
+          description: Example named PHP
+          value: "1"
+        Java:
+          description: Example named Java
+          value: "2"
+        Javascript:
+          description: Example named Javascript
+          value: "3"
+        Laravel:
+          description: Example named Laravel
+          value: "4"
+  examples:
+    todolist-array-slide-1:
+      summary: List of todo by user
+      description: Example List of todo
+      value:
+      - PHP:
+          id: "1"
+          name: Belajar PHP Dasar
+          priority: 1
+          tags:
+          - PHP
+          - Programming
+          - Monolith
+      - Java:
+          id: "2"
+          name: Belajar Java Dasar
+          priority: 3
+          tags:
+          - Java
+          - Programming
+          - Microservices
+    todolist-array-slide-2:
+      summary: List of todo by user again
+      description: Example List of todolist again
+      value:
+      - Go:
+          id: "3"
+          name: Belajar Go Dasar
+          priority: 5
+          tags:
+          - Go
+          - Programming
+          - Microservices
+      - Rust:
+          id: "4"
+          name: Belajar Rust Dasar
+          priority: 3
+          tags:
+          - Rust
+          - Programming
+          - System Language
+    Java:
+      description: Example create todolist Java
+      value:
+        name: Java
+        tags:
+        - Java
+        - Programming
+        priority: 3
+    PHP:
+      description: Example create todolist PHP
+      value:
+        name: PHP
+        tags:
+        - PHP
+        - Programming
+        priority: 3
+    Rust:
+      description: Example create todolist Rust
+      value:
+        name: Rust
+        tags:
+        - Rust
+        - Programming
+        priority: 3
+    Go:
+      description: Example create todolist Go
+      value:
+        name: Go
+        tags:
+        - Go
+        - Programming
+        priority: 3
+  securitySchemes:
+    TodolistAuth:
+      type: apiKey
+      name: X-API-KEY
+      in: header
